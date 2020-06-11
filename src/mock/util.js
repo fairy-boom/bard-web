@@ -1,12 +1,12 @@
 const responseBody = {
   message: '',
-  result: null,
+  data: null,
   success: true,
   code: 0
 }
 
 export const builder = (data, message, code = 0, headers = {}) => {
-  responseBody.result = data
+  responseBody.data = data
   if (message !== undefined && message !== null) {
     responseBody.message = message
   }

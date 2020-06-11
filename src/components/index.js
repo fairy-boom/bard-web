@@ -28,6 +28,7 @@ import TagSelect from '@/components/TagSelect'
 import ExceptionPage from '@/components/Exception'
 import StandardFormRow from '@/components/StandardFormRow'
 import ArticleListContent from '@/components/ArticleListContent'
+import PluginShop from '@/components/Plugin'
 
 import Dialog from '@/components/Dialog'
 
@@ -61,6 +62,7 @@ export {
   TagSelect,
   StandardFormRow,
   ArticleListContent,
+  PluginShop,
 
   Dialog
 }

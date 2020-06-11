@@ -11,11 +11,11 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'tr
   const Mock = require('mockjs2')
   require('./services/auth')
   require('./services/user')
-  require('./services/manage')
   require('./services/other')
   require('./services/tagCloud')
   require('./services/article')
   require('./services/system/plugin')
+  require('./services/system/dict')
   require('./services/service/group')
 
   Mock.setup({

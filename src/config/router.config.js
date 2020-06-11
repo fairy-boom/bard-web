@@ -276,10 +276,24 @@ export const asyncRouterMap = [
             meta: { title: '分组管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
           },
           {
+            path: '/service/plugin',
+            name: 'servicePlugin',
+            hidden: true,
+            component: () => import('@/views/service/plugin'),
+            meta: { title: '插件管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
             path: '/service/:pageNo([1-9]\\d*)?',
             name: 'service',
             component: () => import('@/views/service/api'),
             meta: { title: 'api管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/service/step',
+            name: 'serviceStep',
+            hidden: true,
+            component: () => import('@/views/service/api/StepForm'),
+            meta: { title: '添加API', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
           }
         ]
       },
@@ -292,7 +306,7 @@ export const asyncRouterMap = [
         children: [
           {
             path: '/system/plugin/:pageNo([1-9]\\d*)?',
-            name: 'plugin',
+            name: 'systemPlugin',
             component: () => import('@/views/system/plugin'),
             meta: { title: '插件管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
           }

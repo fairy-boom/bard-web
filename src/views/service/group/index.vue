@@ -55,6 +55,14 @@
             <a-icon type="edit" />编辑
           </a>
           <a-divider type="vertical" />
+          <a @click="gotoPluginManage">
+            <a-icon type="edit" />插件配置
+          </a>
+          <a-divider type="vertical" />
+          <a @click="edit(record)">
+            <a-icon type="edit" />API管理
+          </a>
+          <a-divider type="vertical" />
           <a @click="handleRemove(record)">
             <a-icon type="delete" />删除
           </a>
@@ -109,7 +117,7 @@
           {
             title: '操作',
             dataIndex: 'action',
-            width: '150px',
+            width: 'auto',
             scopedSlots: { customRender: 'action' }
           }
         ],
@@ -117,7 +125,7 @@
         loadData: parameter => {
           return getServiceGroup(Object.assign(parameter, this.queryParam))
             .then(res => {
-              return res.result
+              return res.data
             })
         },
         selectedRowKeys: [],
@@ -125,6 +133,9 @@
       }
     },
     methods: {
+      gotoPluginManage () {
+        this.$router.push({ path: '/service/plugin' })
+      },
       add () {
         this.$dialog(GroupForm,
           {

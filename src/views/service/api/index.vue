@@ -121,7 +121,7 @@
         loadData: parameter => {
           return getServiceGroup(Object.assign(parameter, this.queryParam))
             .then(res => {
-              return res.result
+              return res.data
             })
         },
         selectedRowKeys: [],
@@ -130,27 +130,7 @@
     },
     methods: {
       add () {
-        this.$dialog(GroupForm,
-          {
-            record: {},
-            on: {
-              ok () {
-                console.log('ok 回调')
-              },
-              cancel () {
-                console.log('cancel 回调')
-              },
-              close () {
-                console.log('modal close 回调')
-              }
-            }
-          },
-          {
-            title: '添加插件',
-            width: 700,
-            centered: true,
-            maskClosable: false
-          })
+        this.$router.push({ path: '/service/step' })
       },
       edit (record) {
         console.log('record', record)
