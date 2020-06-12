@@ -35,10 +35,31 @@ const pluginList = (options) => {
   })
 }
 
+const categoryList = (options) => {
+  getQueryParameters(options)
+
+  const result = []
+  for (let i = 1; i < 5; i++) {
+    result.push({
+      id: i,
+      name: '插件',
+      version: '1.0.0',
+      description: '这是一段描述',
+      createdTime: Mock.mock('@datetime'),
+      modifyTime: Mock.mock('@datetime')
+    })
+  }
+
+  return builder({
+    data: result
+  })
+}
+
 const deletePlugin = () => {
   return builder({}, '操作成功')
 }
 
 Mock.mock(/\/plugins/, 'get', pluginList)
+Mock.mock(/\/plugins\/[\s\S]*?/, 'get', categoryList)
 Mock.mock(/\/plugins/, 'delete', deletePlugin)
 Mock.mock(/\/plugins\/batch/, 'delete', deletePlugin)

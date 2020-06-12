@@ -71,7 +71,7 @@
 <script>
 import { STable } from '@/components'
 import PluginForm from './modules/PluginForm'
-import { getPlugins, deletePlugin, deletePlugins, updateStatus } from '@/api/plugin'
+import { queryPlugins, deletePlugin, deletePlugins, updateStatus } from '@/api/plugin'
 
 export default {
   name: 'TableList',
@@ -120,7 +120,7 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return getPlugins(Object.assign(parameter, this.queryParam))
+        return queryPlugins(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res.data
           })

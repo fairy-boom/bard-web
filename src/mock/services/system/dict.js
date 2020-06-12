@@ -23,26 +23,31 @@ const dictPluginList = (options) => {
     id: 1,
     name: '认证',
     parentId: 0,
+    dictKey: 1,
     code: 'aaaa'
   }, {
     id: 2,
     name: '流量',
     parentId: 0,
+    dictKey: 2,
     code: 'aaaa'
   }, {
     id: 3,
     name: '缓存',
     parentId: 0,
+    dictKey: 3,
     code: 'aaaa'
   }, {
     id: 4,
     name: '路由',
     parentId: 0,
+    dictKey: 4,
     code: 'aaaa'
   }, {
     id: 5,
     name: '日志',
     parentId: 0,
+    dictKey: 5,
     code: 'aaaa'
   }]
 

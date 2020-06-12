@@ -7,11 +7,23 @@ const api = '/plugins'
  * @param parameter
  * @returns
  */
-export function getPlugins (parameter) {
+export function queryPlugins (parameter) {
   return axios({
     url: api,
     method: 'get',
     params: parameter
+  })
+}
+
+/**
+ * get plugin list by category
+ * @param categoryId
+ * @returns
+ */
+export function getPluginByCategory (categoryId) {
+  return axios({
+    url: api + '/category/' + categoryId,
+    method: 'get'
   })
 }
 
