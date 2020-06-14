@@ -42,9 +42,9 @@ const categoryList = (options) => {
   for (let i = 1; i < 10; i++) {
     result.push({
       id: i,
-      name: '插件',
+      name: '插件' + i,
       version: '1.0.0',
-      description: '这是一段描述',
+      description: '这是一段描述' + i,
       createdTime: Mock.mock('@datetime'),
       modifyTime: Mock.mock('@datetime')
     })
