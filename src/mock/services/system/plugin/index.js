@@ -43,6 +43,7 @@ const categoryList = (options) => {
     result.push({
       id: i,
       name: '插件' + i,
+      categoryName: '路由',
       version: '1.0.0',
       description: '这是一段描述' + i,
       createdTime: Mock.mock('@datetime'),
