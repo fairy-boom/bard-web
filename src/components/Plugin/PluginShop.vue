@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" title="选择组件">
+  <a-card :bordered="false" title="选择组件" v-if="plugins.length > 0">
     <div class="plugin-shop-header"></div>
     <div class="plugin-shop-container card-container">
       <a-tabs default-active-key="0" @change="handleTabChange">
@@ -10,7 +10,7 @@
               <div class="plugin-card-container" :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')'}">
                 <a-card
                   class="plugin-card"
-                  @click="handlePluginSelected(index)"
+                  @click="handlePluginSelected(pluginIndex)"
                   v-for="(plugin, pluginIndex) in plugins"
                   :key="plugin.id"
                   :title="plugin.name"
@@ -47,9 +47,6 @@
 </template>
 
 <script>
-  import { getDictByCode } from '@/api/system/dict'
-  import { getPluginByCategory } from '@/api/plugin'
-
   export default {
     name: 'PluginShop',
     data () {
@@ -72,9 +69,6 @@
         return this.currentOffset === 0
       }
     },
-    mounted () {
-      this.getPluginCategory()
-    },
     methods: {
       moveCarousel (direction) {
         if (direction === 1 && !this.atEndOfList) {
@@ -84,13 +78,13 @@
         }
       },
       handleTabChange (key) {
+        this.activePlugin = {}
         console.log(key)
       },
       handlePluginChange (e) {
         if (e) {
           e.preventDefault()
         }
-        console.log(e.target.value)
         this.handlePluginSelected(e.target.value)
       },
       handlePluginSelected (index) {
@@ -107,98 +101,7 @@
           this.activePlugin = null
         }
         this.$set(this.plugins, index, this.plugins[index])
-      },
-      getPluginCategory () {
-        getDictByCode('plugin').then(res => {
-          if (res.success) {
-            this.pluginCategory = res.data
-            if (this.pluginCategory.length > 0) {
-              this.defaultActiveKey = this.pluginCategory[0].dictKey
-              this.getPlugins(this.defaultActiveKey)
-            }
-          }
-        })
-      },
-      getPlugins (categoryId) {
-        getPluginByCategory(categoryId).then(res => {
-          if (res.success) {
-            this.plugins = res.data
-          }
-        })
       }
     }
   }
 </script>
-<style lang="less">
-  .plugin-description {
-    margin: 0 50px;
-    .title {
-      color: rgba(0,0,0,.85);
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    /deep/ .term {
-      color: rgba(0,0,0,.85);
-      display: table-cell;
-      line-height: 20px;
-      margin-right: 8px;
-      padding-bottom: 16px;
-      white-space: nowrap;
-
-      &:not(:empty):after {
-        content: ":";
-        margin: 0 8px 0 2px;
-        position: relative;
-        top: -.5px;
-      }
-    }
-
-    /deep/ .content {
-      color: rgba(0,0,0,.65);
-      display: table-cell;
-      min-height: 22px;
-      line-height: 22px;
-      padding-bottom: 16px;
-      width: 100%;
-      &:empty {
-        content: ' ';
-        height: 38px;
-        padding-bottom: 16px;
-      }
-    }
-
-    &.small {
-
-      .title {
-        font-size: 14px;
-        color: rgba(0, 0, 0, .65);
-        font-weight: normal;
-        margin-bottom: 12px;
-      }
-      /deep/ .term, .content {
-        padding-bottom: 8px;
-      }
-    }
-
-    &.large {
-      /deep/ .term, .content {
-        padding-bottom: 16px;
-      }
-
-      .title {
-        font-size: 16px;
-      }
-    }
-
-    &.vertical {
-      .term {
-        padding-bottom: 8px;
-      }
-      /deep/ .term, .content {
-        display: block;
-      }
-    }
-  }
-</style>
