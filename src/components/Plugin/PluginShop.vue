@@ -2,23 +2,23 @@
   <a-card :bordered="false" title="选择组件">
     <div class="plugin-shop-header"></div>
     <div class="plugin-shop-container card-container">
-      <a-tabs default-active-key="1">
-        <a-tab-pane v-for="item in pluginCategory" :key="item.id" :tab="item.name">
+      <a-tabs default-active-key="0" @change="handleTabChange">
+        <a-tab-pane v-for="(item, index) in pluginCategory" :key="index" :tab="item.name">
           <div class="card-carousel-wrapper">
             <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="atHeadOfList"></div>
             <div class="card-carousel--overflow-container">
               <div class="plugin-card-container" :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')'}">
                 <a-card
                   class="plugin-card"
-                  @click="test(plugin.id)"
-                  v-for="plugin in plugins"
+                  @click="handlePluginSelected(index)"
+                  v-for="(plugin, pluginIndex) in plugins"
                   :key="plugin.id"
                   :title="plugin.name"
                   style="min-width: 300px"
                   :loading="false"
                   :hoverable="true"
-                  :headStyle="{backgroundColor: '#F5F5F5'}">
-                  <a-checkbox slot="extra" :change="handlePluginSelected"></a-checkbox>
+                  :headStyle="{backgroundColor: plugin.selected ? '#42b883' : '#F5F5F5'}">
+                  <a-checkbox slot="extra" :checked="plugin.selected" :value="pluginIndex" @change:click.stop="handlePluginChange"></a-checkbox>
                   <p>
                     {{ plugin.description }}
                   </p>
@@ -28,8 +28,8 @@
             <div class="card-carousel--nav__right" @click="moveCarousel(1)" :disabled="atEndOfList"></div>
           </div>
           <a-divider />
-          <div class="plugin-description large horizontal">
-            <a-descriptions :title="111" :column="2">
+          <div class="plugin-description large horizontal" v-if="Object.keys(activePlugin).length !== 0">
+            <a-descriptions title="基本信息" :column="2" :bordered="true">
               <a-descriptions-item label="插件名">{{ activePlugin.name }}</a-descriptions-item>
               <a-descriptions-item label="插件分类">{{ activePlugin.categoryName }}</a-descriptions-item>
               <a-descriptions-item label="版本">{{ activePlugin.version }}</a-descriptions-item>
@@ -38,6 +38,9 @@
             </a-descriptions>
           </div>
         </a-tab-pane>
+        <a-button slot="tabBarExtraContent">
+          确认选择
+        </a-button>
       </a-tabs>
     </div>
   </a-card>
@@ -57,6 +60,7 @@
         pluginCategory: [],
         plugins: [],
         activePlugin: {},
+        selectPluginIds: {},
         defaultActiveKey: 1
       }
     },
@@ -79,14 +83,30 @@
           this.currentOffset += this.paginationFactor * this.windowSize
         }
       },
-      handlePluginSelected (e) {
-        console.log(e)
+      handleTabChange (key) {
+        console.log(key)
       },
-      test (id) {
-        const v = this.plugins.find((item) => {
-          return item.id === id
-        })
-        console.log(v)
+      handlePluginChange (e) {
+        if (e) {
+          e.preventDefault()
+        }
+        console.log(e.target.value)
+        this.handlePluginSelected(e.target.value)
+      },
+      handlePluginSelected (index) {
+        const plugin = this.plugins[index]
+        if (plugin) {
+          if (plugin.selected) {
+            plugin.selected = false
+          } else {
+            this.plugins[index].selected = true
+            this.activePlugin = this.plugins[index]
+          }
+        } else {
+          this.plugins[index].selected = false
+          this.activePlugin = null
+        }
+        this.$set(this.plugins, index, this.plugins[index])
       },
       getPluginCategory () {
         getDictByCode('plugin').then(res => {
@@ -102,7 +122,6 @@
       getPlugins (categoryId) {
         getPluginByCategory(categoryId).then(res => {
           if (res.success) {
-            console.log(res.data)
             this.plugins = res.data
           }
         })
