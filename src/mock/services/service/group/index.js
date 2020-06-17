@@ -39,6 +39,6 @@ const deleteService = () => {
   return builder({}, '操作成功')
 }
 
-Mock.mock(/\/service\/group/, 'get', serviceList)
-Mock.mock(/\/service\/group/, 'delete', deleteService)
-Mock.mock(/\/service\/group\/batch/, 'delete', deleteService)
+Mock.mock(/\/service\/groups/, 'get', serviceList)
+Mock.mock(/\/service\/groups/, 'delete', deleteService)
+Mock.mock(/\/service\/groups\/batch/, 'delete', deleteService)

@@ -55,7 +55,7 @@
             <a-icon type="edit" />编辑
           </a>
           <a-divider type="vertical" />
-          <a @click="gotoPluginManage">
+          <a @click="gotoPluginManage(record)">
             <a-icon type="edit" />插件配置
           </a>
           <a-divider type="vertical" />
@@ -133,8 +133,8 @@
       }
     },
     methods: {
-      gotoPluginManage () {
-        this.$router.push({ path: '/service/plugin' })
+      gotoPluginManage (group) {
+        this.$router.push({ path: '/service/plugin', query: { groupId: group.id } })
       },
       add () {
         this.$dialog(GroupForm,

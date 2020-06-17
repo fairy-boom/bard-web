@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
 
-const api = '/service/group'
+const api = '/service/groups'
 
 /**
  * query service

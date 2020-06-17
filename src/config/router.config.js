@@ -283,6 +283,13 @@ export const asyncRouterMap = [
             meta: { title: '插件管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
           },
           {
+            path: '/service/plugin/choose',
+            name: 'servicePluginChoose',
+            hidden: true,
+            component: () => import('@/views/service/plugin'),
+            meta: { title: '插件管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
             path: '/service/:pageNo([1-9]\\d*)?',
             name: 'service',
             component: () => import('@/views/service/api'),

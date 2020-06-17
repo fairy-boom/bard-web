@@ -1,8 +1,8 @@
 <template>
-  <a-card :bordered="false" title="选择组件" v-if="plugins.length > 0">
+  <a-card :bordered="false">
     <div class="plugin-shop-header"></div>
     <div class="plugin-shop-container card-container">
-      <a-tabs default-active-key="0" @change="handleTabChange">
+      <a-tabs @change="handleTabChange">
         <a-tab-pane v-for="(item, index) in pluginCategory" :key="index" :tab="item.name">
           <div class="card-carousel-wrapper">
             <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="atHeadOfList"></div>
@@ -17,8 +17,9 @@
                   style="min-width: 300px"
                   :loading="false"
                   :hoverable="true"
-                  :headStyle="{backgroundColor: plugin.selected ? '#42b883' : '#F5F5F5'}">
-                  <a-checkbox slot="extra" :checked="plugin.selected" :value="pluginIndex" @change:click.stop="handlePluginChange"></a-checkbox>
+                  :headStyle="{backgroundColor: plugin.selected || isShow ? '#42b883' : '#F5F5F5', color: plugin.selected || isShow ? '#FFF' : ''}">
+                  <a-icon type="delete" slot="extra" :style="{color: '#FFF'}" v-if="isShow" @click="remove(plugin)"/>
+                  <a-checkbox slot="extra" :checked="plugin.selected" :value="pluginIndex" @change="handlePluginChange" v-else></a-checkbox>
                   <p>
                     {{ plugin.description }}
                   </p>
@@ -38,9 +39,6 @@
             </a-descriptions>
           </div>
         </a-tab-pane>
-        <a-button slot="tabBarExtraContent">
-          确认选择
-        </a-button>
       </a-tabs>
     </div>
   </a-card>
@@ -49,13 +47,28 @@
 <script>
   export default {
     name: 'PluginShop',
+    props: {
+      isShow: {
+        type: Boolean,
+        default: true,
+        required: true
+      },
+      pluginCategory: {
+        type: Array,
+        default: null,
+        required: true
+      },
+      plugins: {
+        type: Array,
+        default: null,
+        required: true
+      }
+    },
     data () {
       return {
         currentOffset: 0,
-        paginationFactor: 320,
+        paginationFactor: 360,
         windowSize: 5,
-        pluginCategory: [],
-        plugins: [],
         activePlugin: {},
         selectPluginIds: {},
         defaultActiveKey: 1
@@ -82,25 +95,18 @@
         console.log(key)
       },
       handlePluginChange (e) {
-        if (e) {
-          e.preventDefault()
+        if (e.target.checked) {
+            this.plugins[e.target.value].selected = true
+        } else {
+          this.plugins[e.target.value].selected = false
         }
-        this.handlePluginSelected(e.target.value)
+        this.$set(this.plugins, e.target.value, this.plugins[e.target.value])
       },
       handlePluginSelected (index) {
-        const plugin = this.plugins[index]
-        if (plugin) {
-          if (plugin.selected) {
-            plugin.selected = false
-          } else {
-            this.plugins[index].selected = true
-            this.activePlugin = this.plugins[index]
-          }
-        } else {
-          this.plugins[index].selected = false
-          this.activePlugin = null
-        }
-        this.$set(this.plugins, index, this.plugins[index])
+        this.activePlugin = this.plugins[index]
+      },
+      remove (plugin) {
+        this.$emit('removePlugin', plugin)
       }
     }
   }
