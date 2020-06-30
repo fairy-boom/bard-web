@@ -166,6 +166,12 @@ export const asyncRouterMap = [
             name: 'systemPlugin',
             component: () => import('@/views/system/plugin'),
             meta: { title: '插件管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/system/dict/:pageNo([1-9]\\d*)?',
+            name: 'dict',
+            component: () => import('@/views/system/dict'),
+            meta: { title: '字典管理', icon: 'tool', keepAlive: true, permission: [ 'table' ] }
           }
         ]
       }

@@ -1,22 +1,35 @@
 import Mock from 'mockjs2'
-import { builder } from '@/mock/util'
+import { builder, getQueryParameters } from '@/mock/util'
 
-// const dictList = (options) => {
-//   const result = []
-//
-//   for (let i = 1; i < 10; i++) {
-//     result.push({
-//       id: i,
-//       name: '插件',
-//       parentId: i,
-//       code: 'aaaa'
-//     })
-//   }
-//
-//   return builder({
-//     data: result
-//   })
-// }
+const totalCount = 100
+
+const dictList = (options) => {
+  const parameters = getQueryParameters(options)
+
+  const result = []
+  const pageNo = parseInt(parameters.pageNo)
+  const pageSize = parseInt(parameters.pageSize)
+  const totalPage = Math.ceil(totalCount / pageSize)
+  const key = (pageNo - 1) * pageSize
+  const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+
+  for (let i = 1; i < next; i++) {
+    result.push({
+      id: key + i,
+      name: '插件',
+      parentId: i,
+      code: 'aaaa'
+    })
+  }
+
+  return builder({
+    pageSize: pageSize,
+    pageNo: pageNo,
+    totalCount: totalCount,
+    totalPage: totalPage,
+    data: result
+  })
+}
 
 const dictPluginList = (options) => {
   const result = [{
@@ -54,5 +67,5 @@ const dictPluginList = (options) => {
   return builder(result)
 }
 
-// Mock.mock(/\/dict/, 'get', dictList)
+Mock.mock(/\/dict/, 'get', dictList)
 Mock.mock(/\/dict\/code\/plugin/, 'get', dictPluginList)
