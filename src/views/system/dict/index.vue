@@ -122,7 +122,6 @@
 import { STable } from '@/components'
 import DictForm from './modules/DictForm'
 import { queryDict, deleteDict, deleteDicts } from '@/api/system/dict'
-import PluginForm from '@/views/system/plugin/modules/PluginForm'
 
 export default {
   name: 'TableList',
@@ -224,7 +223,7 @@ export default {
     },
     handlerEdit (record) {
       console.log('record', record)
-      this.$dialog(PluginForm,
+      this.$dialog(DictForm,
         {
           record,
           on: {
